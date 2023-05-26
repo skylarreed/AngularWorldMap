@@ -1,8 +1,31 @@
-.world-map-svg {
-  width: 55%;
-  height: auto;
+.container {
+  height: 100vh;
+  position: relative;
 }
 
-.world-map-svg:hover path {
-   fill: red; /* Modify the fill color as desired */
+.world-map {
+  width: 125%;
+  height: 100%;
+  transform: scale(1.25);
+  transform-origin: top left;
+}
+
+.country-info {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 300px; /* Adjust the width as needed */
+}
+
+.country-details {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .country-info {
+    position: static;
+    margin-top: 20px;
+    width: 100%;
+    right: 0;
+  }
 }

@@ -1,10 +1,26 @@
-<div class="world-map">
-  <object type="image/svg+xml" data="assets/world-map.svg" class="world-map-svg" id="world-map-svg" (load)="onMapLoad($event)"></object>
-</div>
-
-<div class="country-data">
-  <h2>
-    Country Information:
-  </h2>
-  <p>Highlighted Country: {{ highlightedCountry }}</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="world-map">
+        <object type="image/svg+xml" data="assets/world-map.svg" class="world-map-svg" id="world-map-svg" (load)="onMapLoad($event)"></object>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="country-info">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Country Information:</h2>
+            <div class="country-details">
+              <p class="card-text"><strong>Country Name:</strong> {{ highlightedCountry }}</p>
+              <p class="card-text"><strong>Country Capital:</strong> {{ countryCapital }}</p>
+              <p class="card-text"><strong>Country Region:</strong> {{ countryRegion }}</p>
+              <p class="card-text"><strong>Country Income Level: </strong> {{ countryIncomeLevel }}</p>
+              <p class="card-text"><strong>Country Latitude: </strong> {{ countryLatitude }}</p>
+              <p class="card-text"><strong>Country Longitude: </strong> {{ countryLongitude }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,16 +1,24 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy, NgZone } from '@angular/core';
+import { CountryApiService } from '../country-api.service';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent {
   private svgObject: any;
   private countryPaths: any;
   public highlightedCountry: string = '';
+  public countryCapital: string = '';
+  public countryRegion: string = '';
+  public countryIncomeLevel: string = '';
+  public countryLatitude: string = '';
+  public countryLongitude: string = '';
+ 
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private changeDetectorRef: ChangeDetectorRef, private countryApiService: CountryApiService, private ngZone: NgZone) { }
 
   onMapLoad(event: any) {
     this.svgObject = event.target.contentDocument;
@@ -21,7 +29,8 @@ export class MapComponent {
 
       countryPath.addEventListener('mouseover', () => {
         const countryName = countryPath.getAttribute('name');
-        this.highlightCountry(countryPath, countryName);
+        const countryCode = countryPath.getAttribute('id');
+        this.highlightCountry(countryPath, countryName, countryCode);
       });
 
       countryPath.addEventListener('mouseout', () => {
@@ -30,15 +39,26 @@ export class MapComponent {
     }
   }
 
-  highlightCountry(countryPath: any, countryName: string) {
-    countryPath.style.fill = 'yellow';
-    this.highlightedCountry = countryName;
-    this.changeDetectorRef.detectChanges(); // Trigger change detection
+  highlightCountry(countryPath: any, countryName: string, countryCode: string) {
+    countryPath.style.fill = 'lightblue';
+    this.setCountryData(countryCode, countryName);
+    this.ngZone.run(() => { this.changeDetectorRef.detectChanges(); });
+
   }
 
   unhighlightCountry(countryPath: any) {
     countryPath.style.fill = '';
-    this.highlightedCountry = '';
-    this.changeDetectorRef.detectChanges(); // Trigger change detection
+    this.ngZone.run(() => { this.changeDetectorRef.detectChanges(); });
+  }
+
+  setCountryData(countryCode: string, countryName: string) {
+    let map = this.countryApiService.getCountryData(countryCode, countryName);
+    this.highlightedCountry = map.get('countryName');
+    this.countryCapital = map.get('countryCapital');
+    this.countryRegion = map.get('countryRegion');
+    this.countryIncomeLevel = map.get('countryIncomeLevel');
+    this.countryLatitude = map.get('countryLatitude');
+    this.countryLongitude = map.get('countryLongitude');
+    this.ngZone.run(() => { this.changeDetectorRef.detectChanges(); });
   }
 }
