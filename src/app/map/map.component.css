@@ -1,0 +1,8 @@
+.world-map-svg {
+  width: 55%;
+  height: auto;
+}
+
+.world-map-svg:hover path {
+   fill: red; /* Modify the fill color as desired */
+}
